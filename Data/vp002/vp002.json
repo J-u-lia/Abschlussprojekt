@@ -1,0 +1,9 @@
+{
+    "id": "vp002",
+    "firstname": "Sophie",
+    "lastname": "Zembacher",
+    "date_of_birth": "2006",
+    "gender": "Weiblich",
+    "sportniveau": "Amateur",
+    "picture_path": "data\\vp002\\images\\vp002.jpg"
+}

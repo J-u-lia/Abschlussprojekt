@@ -1,0 +1,9 @@
+{
+    "id": "vp001",
+    "firstname": "Julian",
+    "lastname": "Huber",
+    "date_of_birth": 1989,
+    "gender": "M\u00e4nnlich",
+    "sportniveau": "Amateur",
+    "picture_path": "data\\vp001\\images\\vp001.jpg"
+}
