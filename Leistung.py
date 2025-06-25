@@ -26,26 +26,42 @@ class Leistung:
         self.df = self._add_stufen()
 
     def _add_zonen(self):
-        """ Fügt die Zonen zur DataFrame hinzu, basierend auf der maximalen Herzfrequenz.
+        """ Fügt die Zonen zur DataFrame hinzu, basierend auf der maximalen Herzfrequenz. Diese Funktion nutzt die Methode Zonen_definieren, um die Zonen zu berechnen.
+        Die Zonen werden in der DataFrame als neue Spalte "Zone" hinzugefügt.
+        Eingabe: Keine
+        Rückgabe: DataFrame mit einer neuen Spalte "Zone", die die Zonen basierend auf der Herzfrequenz enthält.
         """
         return self.Zonen_definieren()
 
     def _add_stufen(self):
-        """ Fügt die Stufen zur DataFrame hinzu, basierend auf der Leistung.
+        """ Fügt die Stufen zur DataFrame hinzu, basierend auf der Leistung. Diese Funktion nutzt die Methode Stufen_definieren, um die Stufen zu berechnen.
+        Die Stufen werden in der DataFrame als neue Spalte "Stufe" hinzugefügt.
+        Eingabe: Keine
+        Rückgabe: DataFrame mit einer neuen Spalte "Stufe", die die Stufen basierend auf der Leistung enthält.
         """
         return self.Stufen_definieren()
 
     @staticmethod
     def csv_Datei_laden(path_or_file):
-        """ Lädt eine CSV-Datei und gibt sie als DataFrame zurück.
+        """ Lädt eine CSV-Datei und gibt sie als DataFrame zurück. 
+        Diese Funktion nimmt entweder einen Dateipfad oder ein Dateihandle entgegen und liest die CSV-Daten ein.
+        Eingabe: path_or_file - Pfad zur CSV-Datei oder Dateihandle
+        Rückgabe: DataFrame mit den geladenen Daten.
+        Wenn der Pfad ungültig ist oder die Datei nicht gefunden wird, wird eine Fehlermeldung ausgegeben.
         """
         return pd.read_csv(path_or_file)
 
     def Zonen_definieren(self):
-        """ Definiert die Zonen basierend auf der Herzfrequenz.
+        """ Definiert die Zonen basierend auf der Herzfrequenz. 
+        Diese Funktion erstellt eine neue Spalte "Zone" in der DataFrame, die die Zone basierend auf der Herzfrequenz angibt.
+        Eingabe: Keine
+        Rückgabe: DataFrame mit einer neuen Spalte "Zone", die die Zonen basierend auf der Herzfrequenz enthält.
         """
         def get_zone(hr):
-            """ Bestimmt die Zone basierend auf der Herzfrequenz.
+            """ Bestimmt die Zone basierend auf der Herzfrequenz. 
+            Diese Funktion nimmt die Herzfrequenz als Eingabe und gibt die entsprechende Zone zurück.
+            Eingabe: hr - Herzfrequenz in bpm
+            Rückgabe: String, der die Zone angibt (z.B. "Zone 1", "Zone 2", etc.)
             """
             if hr < 0.6 * self.HR_max:
                 return "Zone 1"
@@ -64,6 +80,11 @@ class Leistung:
 
     def Stufen_definieren(self):
         """ Definiert die Stufen basierend auf der Leistung.
+        Diese Funktion erstellt eine neue Spalte "Stufe" in der DataFrame, die die Stufe basierend auf der Leistung angibt.
+        Eingabe: Keine
+        Rückgabe: DataFrame mit einer neuen Spalte "Stufe", die die Stufen basierend auf der Leistung enthält.
+        Die Stufen werden durch Änderungen in der Leistung definiert, wobei eine Änderung von mehr als 5 Watt zwischen aufeinanderfolgenden Messungen eine neue Stufe einleitet.
+        Die erste Stufe beginnt bei 0.
         """
         df = self.df.copy()
         stufe = 0
@@ -79,6 +100,11 @@ class Leistung:
 
     def shapes_definieren(self, spalte, farben_dict):
         """ Erstellt Hintergrundformen für die Zonen im Plot, basierend auf der angegebenen Spalte und den Farben im Dictionary.
+        Diese Funktion nimmt eine Spalte und ein Dictionary mit Farben als Eingabe und gibt eine Liste von Formen zurück, die im Plotly-Diagramm verwendet werden können, um die Zonen visuell darzustellen.
+        Eingabe: spalte - Name der Spalte, die die Zonen angibt (z.B. "Zone")
+        farben_dict - Dictionary, das die Farben für jede Zone angibt, z.B. {"Zone 1": "red", "Zone 2": "blue", ...}
+        Rückgabe: Liste von Formen, die im Plotly-Diagramm verwendet werden können, um die Zonen darzustellen.
+        Die Formen sind Rechtecke, die den Bereich der jeweiligen Zone im Diagramm abdecken.
         """
         df = self.df
         shapes = []
@@ -113,8 +139,16 @@ class Leistung:
 
     def stufen_Hintergrund(self):
         """
-        Erstellt Hintergrundformen für die Stufen im Plot, die die Form einer Treppe haben. Damit kann die
+        Diese Funktion erstellt Hintergrundformen für die Stufen im Plot, die die Form einer Treppe haben. Damit kann die
         Stufenstruktur visuell hervorgehoben werden.
+        Diese Funktion analysiert die DataFrame und erstellt Rechtecke, die den Bereich jeder Stufe abdecken.
+        Die Rechtecke sind in einem einheitlichen Blau gehalten, um die Stufen klar zu unterscheiden.
+        Die Stufen werden durch Änderungen in der "Stufe"-Spalte der DataFrame definiert.
+        Die erste Stufe beginnt bei 0 und jede Änderung in der Stufe wird durch ein Rechteck dargestellt.
+        Die Höhe der Rechtecke entspricht der Leistung (in Watt) am Ende jeder Stufe.
+        Eingabe: Keine
+        Rückgabe: Liste von Formen, die im Plotly-Diagramm verwendet werden können, um die Stufen darzustellen.
+        Jede Form ist ein Rechteck, das den Bereich der jeweiligen Stufe im Diagramm abdeckt.
         """
         df = self.df
         shapes = []
@@ -157,6 +191,13 @@ class Leistung:
         """ Erstellt ein Plotly-Diagramm für den Herzfrequenzverlauf mit optionalen Zonen oder Stufen. Dabei gibt es zwei Modis, einmal den Modus "zonen" und einmal den Modus "stufen".
         Der Modus "zonen" zeigt die Herzfrequenz in verschiedenen Zonen, während der Modus "stufen" die Herzfrequenz in verschiedenen Stufen anzeigt.
         Die Zonen und Stufen werden durch unterschiedliche Farben im Hintergrund hervorgehoben.
+        Eingabe: mode - String, der den Modus angibt ("zonen" oder "stufen")
+        Rückgabe: Plotly-Figur mit dem Herzfrequenzverlauf, der Leistung und den entsprechenden Zonen oder Stufen.
+        Wenn der Modus "zonen" gewählt wird, werden die Zonen im Hintergrund angezeigt und die Legende zeigt die Farben der Zonen an.
+        Wenn der Modus "stufen" gewählt wird, werden die Stufen im Hintergrund angezeigt und die Legende zeigt die Stufen an.
+        Wenn ein ungültiger Modus angegeben wird, wird ein einfaches Liniendiagramm ohne Zonen oder Stufen erstellt.
+        Die X-Achse zeigt die Zeit in Sekunden, die Y-Achse zeigt die Herzfrequenz in bpm und die Leistung in Watt.
+        Die Herzfrequenz wird in rot und die Leistung in schwarz dargestellt.
         """
         df = self.df
         if mode == "zonen":
@@ -195,6 +236,16 @@ class Leistung:
 
     def Werte_berechnen(self):
         """ Berechnet verschiedene Leistungskennzahlen aus den Daten, welche für die Analyse relevant sind.
+        Diese Funktion berechnet den durchschnittlichen und maximalen Leistungswert, die Zeit in jeder Zone, die durchschnittliche Herzfrequenz pro Zone und die durchschnittliche Leistung pro Zone.
+        Zusätzlich werden die durchschnittlichen Herzfrequenz- und Leistungswerte pro Stufe berechnet.
+        Eingabe: Keine
+        Rückgabe: Dictionary mit den berechneten Werten:
+            - mean_power: Durchschnittliche Leistung in Watt
+            - max_power: Maximale Leistung in Watt
+            - zeit_pro_zone: Zeit in jeder Zone in Sekunden
+            - hf_pro_zone: Durchschnittliche Herzfrequenz pro Zone
+            - leistung_pro_zone: Durchschnittliche Leistung pro Zone
+            - stufenwerte: DataFrame mit durchschnittlicher Herzfrequenz und Leistung pro Stufe
         """
         df = self.df
 

@@ -1,9 +1,81 @@
 {
     "id": "vp001",
-    "firstname": "Julian",
-    "lastname": "Huber",
-    "date_of_birth": 1989,
-    "gender": "M\u00e4nnlich",
+    "firstname": "Sophie",
+    "lastname": "Zembacher",
+    "date_of_birth": 2006,
+    "gender": "Weiblich",
     "sportniveau": "Amateur",
-    "picture_path": "data\\vp001\\images\\vp001.jpg"
+    "picture_path": "data\\vp001\\images\\bild.jpg",
+    "Stufentest": {
+        "Test1": {
+            "Testdatum": "2025-06-14",
+            "Testdauer": 7
+        },
+        "Test2": {
+            "id": "T002",
+            "Testdatum": "2025-06-24",
+            "Testdauer": 7,
+            "Belastung": [
+                {
+                    "Zeit (min)": 2,
+                    "Leistung (Watt)": "100",
+                    "Herzfrequenz (bpm)": "97",
+                    "Laktat (mmol/l)": "1.2"
+                },
+                {
+                    "Zeit (min)": 4,
+                    "Leistung (Watt)": "150",
+                    "Herzfrequenz (bpm)": "196",
+                    "Laktat (mmol/l)": "8.6"
+                }
+            ],
+            "Erholung": [
+                {
+                    "Zeit (min)": 2,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "186",
+                    "Laktat (mmol/l)": "7.4"
+                },
+                {
+                    "Zeit (min)": 4,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "123",
+                    "Laktat (mmol/l)": "2.3"
+                }
+            ],
+            "Stufendauer": 2,
+            "Erholungsintervall": 2,
+            "InputArt": "manuell",
+            "belastung_csv_path": "data\\vp001\\daten\\test_002_belastung.csv",
+            "erholung_csv_path": "data\\vp001\\daten\\test_002_erholung.csv"
+        },
+        "test_002_belastung": {
+            "Testdatum": "2025-06-22",
+            "Testdauer": 7,
+            "belastung_csv_path": "daten\\test_002_belastung.csv",
+            "erholung_csv_path": "daten\\test_002_erholung.csv"
+        },
+        "test_002_erholung.csv": {
+            "Testdatum": "2025-06-24",
+            "Testdauer": 4,
+            "belastung_csv_path": "data\\vp001\\daten\\test_002_erholung.csv_belastung.csv",
+            "erholung_csv_path": "data\\vp001\\daten\\test_002_erholung.csv_erholung.csv"
+        },
+        "test_001_belastung.csv": {
+            "Testdatum": "2025-06-13",
+            "Testdauer": 7
+        },
+        "test_001_erholung.csv": {
+            "Testdatum": "2025-06-13",
+            "Testdauer": 6
+        },
+        "test_002_belastung.csv": {
+            "Testdatum": "2025-06-24",
+            "Testdauer": 3,
+            "belastung_csv_path": "daten\\belastung.csv",
+            "erholung_csv_path": "daten\\erholung.csv"
+        }
+    },
+    "Testdatum": "2025-06-22",
+    "Testdauer": 7
 }

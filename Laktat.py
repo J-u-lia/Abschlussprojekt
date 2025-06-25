@@ -7,6 +7,7 @@ pio.renderers.default = "browser"
 import numpy as np
 
 class Laktat:
+    """Eine Klasse zur Analyse von Laktatdaten."""
     zone_colors = {
         "Zone 1 (unter LT1)": "rgba(173,216,230,0.3)",
         "Zone 2 (LT1 - LT2)": "rgba(255,255,0,0.3)",
@@ -15,21 +16,30 @@ class Laktat:
 
     @staticmethod
     def csv_Datei_laden(path):
-        """Lädt eine CSV-Datei und gibt sie als DataFrame zurück."""
+        """Lädt eine CSV-Datei und gibt sie als DataFrame zurück.
+        Eingabe: Pfad zur CSV-Datei
+        Rückgabe: Pandas DataFrame mit den Laktatdaten"""
         return pd.read_csv(path)
 
     @staticmethod
     def schwellenwerte_berechnen(df):
-        """Berechnet die Laktatschwellen LT1 und LT2 aus den Daten."""
+        """Berechnet die Laktatschwellen LT1 und LT2 aus den Daten.
+        LT1 ist der Punkt, an dem Laktat 2 mmol/l erreicht, und LT2 ist der Punkt, an dem Laktat 4 mmol/l erreicht.
+        Eingabe: DataFrame mit den Laktatdaten
+        Rückgabe: Tuple mit LT1 und LT2"""
         Lt1 = df[df["Laktat (mmol/l)"] >= 2].iloc[0]["Leistung (Watt)"]
         Lt2 = df[df["Laktat (mmol/l)"] >= 4].iloc[0]["Leistung (Watt)"]
         return Lt1, Lt2
 
     @staticmethod
     def laktatzonen_berechnen(df, Lt1, Lt2):
-        """Berechnet die Laktatzonen basierend auf LT1 und LT2."""
+        """Berechnet die Laktatzonen basierend auf LT1 und LT2.
+        Eingabe: DataFrame mit den Laktatdaten, LT1 und LT2
+        Rückgabe: DataFrame mit einer neuen Spalte 'Laktatzone', die die Laktatzone für jede Leistung angibt."""
         def zone(leistung):
-            """Bestimmt die Laktatzone basierend auf der Leistung."""
+            """Bestimmt die Laktatzone basierend auf der Leistung.
+            Eingabe: Leistung in Watt
+            Rückgabe: String mit der Laktatzone"""
             if leistung < Lt1:
                 return "Zone 1 (unter LT1)"
             elif leistung < Lt2:
@@ -42,7 +52,9 @@ class Laktat:
 
     @staticmethod
     def Belastung_plot_erstellen(df, Lt1, Lt2):
-        """Erstellt ein Plotly-Diagramm mit Laktat und Herzfrequenz über die Leistung. Im Hintergrund werden die Laktatzonen angezeigt."""
+        """Erstellt ein Plotly-Diagramm mit Laktat und Herzfrequenz über die Leistung. Im Hintergrund werden die Laktatzonen angezeigt.
+        Eingabe: DataFrame mit den Laktatdaten, LT1 und LT2
+        Rückgabe: Plotly Figure mit dem Diagramm"""
         shapes = []
         zone_legend_traces = []
 
@@ -102,7 +114,9 @@ class Laktat:
 
     @staticmethod
     def Erholung_plot_erstellen(df, Lt1, Lt2):
-        """Erstellt ein Plotly-Diagramm mit Laktat und Herzfrequenz über die Zeit. Im Hintergrund werden die Laktatzonen angezeigt."""
+        """Erstellt ein Plotly-Diagramm mit Laktat und Herzfrequenz über die Zeit. Im Hintergrund werden die Laktatzonen angezeigt.
+        Eingabe: DataFrame mit den Laktatdaten, LT1 und LT2
+        Rückgabe: Plotly Figure mit dem Diagramm"""
         shapes = []
         zone_legend_traces = []
 
@@ -162,7 +176,9 @@ class Laktat:
 
     @staticmethod
     def Trainingsbereiche_berechnen(Lt1, Lt2):
-        """Berechnet die empfohlenen Trainingsbereiche basierend auf LT1 und LT2."""
+        """Berechnet die empfohlenen Trainingsbereiche basierend auf LT1 und LT2.
+        Eingabe: LT1 und LT2 in Watt
+        Rückgabe: Dictionary mit den Trainingsbereichen"""
         delta = Lt2 - Lt1
         return {
             "Regenerativ": f"< {Lt1:.0f} Watt",
@@ -173,7 +189,9 @@ class Laktat:
 
     @staticmethod
     def Trainingsbereiche_HF_plot(df, Lt1, Lt2):
-        """Erstellt ein Balkendiagramm der Trainingsbereiche auf Basis interpolierter Herzfrequenz. Dabei wird auf der x-Achse die Herzfrequenz und auf der y-Achse die Trainingsbereiche angezeigt."""
+        """Erstellt ein Balkendiagramm der Trainingsbereiche auf Basis interpolierter Herzfrequenz. Dabei wird auf der x-Achse die Herzfrequenz und auf der y-Achse die Trainingsbereiche angezeigt.
+        Eingabe: DataFrame mit den Laktatdaten, LT1 und LT2
+        Rückgabe: Plotly Figure mit dem Balkendiagramm der Trainingsbereiche"""
         # Berechnung der HF-Werte an Laktatschwellen
         hf_interp = np.interp(
             [Lt1, Lt1 + 0.4 * (Lt2 - Lt1), Lt1 + 0.9 * (Lt2 - Lt1), Lt2],
@@ -233,7 +251,9 @@ class Laktat:
 
     @classmethod
     def Analyse_durchführen(cls, csv_path):
-        """Führt die gesamte Analyse durch: CSV laden, Schwellenwerte berechnen, Laktatzonen bestimmen und Diagramm erstellen."""
+        """Führt die gesamte Analyse durch: CSV laden, Schwellenwerte berechnen, Laktatzonen bestimmen und Diagramm erstellen.
+        Eingabe: Pfad zur CSV-Datei
+        Rückgabe: Dictionary mit LT1, LT2, dem Diagramm und den Trainingsbereichen"""
         df = cls.csv_Datei_laden(csv_path)
         Lt1, Lt2 = cls.schwellenwerte_berechnen(df)
         df = cls.laktatzonen_berechnen(df, Lt1, Lt2)
@@ -250,7 +270,9 @@ class Laktat:
 
     @staticmethod
     def Laktatabbau(df):
-        """Berechnet den durchschnittlichen Laktatabbau während der Erholungsphase."""
+        """Berechnet den durchschnittlichen Laktatabbau während der Erholungsphase.
+        Eingabe: DataFrame mit den Laktatdaten, der die Spalten 'Laktat (mmol/l)' und 'Zeit (min)' enthält.
+        Rückgabe: Durchschnittliche Laktatabbau-Rate in mmol/l pro Minute oder None, wenn die Daten nicht geeignet sind."""
         df = df.copy()
         
         start_laktat = df["Laktat (mmol/l)"].iloc[0]

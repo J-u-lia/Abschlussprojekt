@@ -239,3 +239,87 @@ elif st.session_state.page_mode == "bestehend":
     with start_tab:
         bestehende_versuchsperson_auswählen()
 
+
+
+
+# vor csv datei löschen
+else:
+            # bearbeiten der Personendaten
+            st.subheader("Personendaten bearbeiten")
+            person_data["firstname"] = st.text_input("Vorname", value=person_data.get("firstname", ""))
+            person_data["lastname"] = st.text_input("Nachname", value=person_data.get("lastname", ""))
+            person_data["date_of_birth"] = st.selectbox("Geburtsjahr", options=list(reversed(range(1950, datetime.date.today().year + 1))), index=0 if not person_data.get("date_of_birth") else list(reversed(range(1950, datetime.date.today().year + 1))).index(int(person_data["date_of_birth"])))
+            person_data["gender"] = st.selectbox("Geschlecht", ["Männlich", "Weiblich"], index=0 if person_data.get("gender") == "Männlich" else 1)
+            person_data["sportniveau"] = st.selectbox("Sportniveau", ["Einsteiger", "Hobbysportler", "Amateur", "Leistungssportler", "Profi"], index=["Einsteiger", "Hobbysportler", "Amateur", "Leistungssportler", "Profi"].index(person_data.get("sportniveau", "Einsteiger")))
+
+            # Testdaten bearbeiten
+            st.subheader("Testdaten bearbeiten")
+
+            # Datum (ggf. in datetime umwandeln falls String)
+            aktuelles_datum = datetime.date.today()
+            if isinstance(person_data.get("Testdatum"), str):
+                try:
+                    aktuelles_datum = datetime.date.fromisoformat(person_data["Testdatum"])
+                except ValueError:
+                    pass  # falls das Format ungültig ist
+
+            person_data["Testdatum"] = st.date_input("Testdatum", value=aktuelles_datum)
+            person_data["Testdauer"] = st.number_input("Testdauer (Minuten)", min_value=1, max_value=180, value=int(person_data.get("Testdauer", 30)))
+
+            # CSV-Datei austauschen
+            if os.path.exists(daten_folder):
+                vorhandene_csvs = sorted([f for f in os.listdir(daten_folder) if f.endswith(".csv")])
+                if vorhandene_csvs:
+                    aktuelle_csv = st.selectbox("Zugeordnete CSV-Datei", vorhandene_csvs, index=vorhandene_csvs.index(st.session_state.get("selected_test_csv", vorhandene_csvs[0])))
+                    # Speichern der CSV-Auswahl (optional)
+                    st.session_state["selected_test_csv"] = aktuelle_csv
+                else:
+                    st.warning("Keine CSV-Dateien im Testdaten-Ordner gefunden.")
+            else:
+                st.warning("Testdaten-Ordner existiert nicht.")
+
+
+
+            if st.button("Änderungen speichern"):
+                # Testdatum in String umwandeln, falls es ein datetime.date ist
+                if isinstance(person_data.get("Testdatum"), datetime.date):
+                    person_data["Testdatum"] = person_data["Testdatum"].isoformat()
+
+                with open(json_path, "w", encoding="utf-8") as f:
+                    json.dump(person_data, f, indent=4)
+
+                st.success("Daten erfolgreich gespeichert.")
+                st.session_state.edit_mode = False
+                st.rerun()
+
+
+            if st.button("Bearbeiten abbrechen"):
+                st.session_state.edit_mode = False
+                st.rerun()
+
+        # CSV-Dateien Dropdown beibehalten
+        st.subheader("Testdaten auswählen")
+        if os.path.exists(daten_folder):
+            test_files = sorted([f for f in os.listdir(daten_folder) if f.endswith(".csv")])
+            if test_files:
+                selected_test = st.selectbox("Test auswählen", options=test_files, key="selected_test_csv")
+                st.info(f"Ausgewählter Test: {selected_test}")
+
+                # Testdatum und -dauer anzeigen
+                if selected_test:
+                    testdatum = person_data.get("Testdatum", "Unbekannt")
+                    testdauer = person_data.get("Testdauer", "Unbekannt")
+
+                    st.markdown(f"**Testdatum:** {testdatum}")
+                    st.markdown(f"**Testdauer:** {testdauer} Minuten")
+
+
+            else:
+                st.info("Keine Testdaten vorhanden.")
+        else:
+            st.info("Kein Testordner vorhanden.")
+
+    if st.button("Zurück zur Startseite"):
+        st.session_state.page_mode = "start"
+        st.session_state.edit_mode = False
+        st.rerun()
