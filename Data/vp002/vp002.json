@@ -1,9 +1,101 @@
 {
     "id": "vp002",
-    "firstname": "Sophie",
-    "lastname": "Zembacher",
-    "date_of_birth": "2006",
+    "firstname": "Julia",
+    "lastname": "Rössler",
+    "date_of_birth": 2006,
     "gender": "Weiblich",
-    "sportniveau": "Amateur",
-    "picture_path": "data\\vp002\\images\\vp002.jpg"
+    "sportniveau": "Einsteiger",
+    "picture_path": "data\\vp002\\images\\bild.jpg",
+    "Stufentest": {
+        "test_001": {
+            "id": "test_001",
+            "Testdatum": "2025-04-11",
+            "Testdauer": 40,
+            "Belastung": "laktat_stufentest_beispiel_belastung______2.csv",
+            "Erholung": "laktat_stufentest_beispiel_Erholung ______2.csv",
+            "InputArt": "csv",
+            "belastung_csv_path": "data\\vp002\\daten\\test_001_belastung.csv",
+            "erholung_csv_path": "data\\vp002\\daten\\test_001_erholung.csv"
+        },
+        "test_002": {
+            "id": "test_002",
+            "Testdatum": "2025-06-26",
+            "Testdauer": 10,
+            "Belastung": [
+                {
+                    "Zeit (min)": 5,
+                    "Leistung (Watt)": "100",
+                    "Herzfrequenz (bpm)": "94",
+                    "Laktat (mmol/l)": "1.1"
+                },
+                {
+                    "Zeit (min)": 10,
+                    "Leistung (Watt)": "140",
+                    "Herzfrequenz (bpm)": "112",
+                    "Laktat (mmol/l)": "1.9"
+                },
+                {
+                    "Zeit (min)": 15,
+                    "Leistung (Watt)": "180",
+                    "Herzfrequenz (bpm)": "134",
+                    "Laktat (mmol/l)": "2.7"
+                },
+                {
+                    "Zeit (min)": 20,
+                    "Leistung (Watt)": "220",
+                    "Herzfrequenz (bpm)": "165",
+                    "Laktat (mmol/l)": "3.5"
+                },
+                {
+                    "Zeit (min)": 25,
+                    "Leistung (Watt)": "260",
+                    "Herzfrequenz (bpm)": "187",
+                    "Laktat (mmol/l)": "5.8"
+                },
+                {
+                    "Zeit (min)": 30,
+                    "Leistung (Watt)": "300",
+                    "Herzfrequenz (bpm)": "198",
+                    "Laktat (mmol/l)": "8.6"
+                }
+            ],
+            "Erholung": [
+                {
+                    "Zeit (min)": 1,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "175",
+                    "Laktat (mmol/l)": "7.5"
+                },
+                {
+                    "Zeit (min)": 2,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "153",
+                    "Laktat (mmol/l)": "4.9"
+                },
+                {
+                    "Zeit (min)": 3,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "141",
+                    "Laktat (mmol/l)": "3.2"
+                },
+                {
+                    "Zeit (min)": 4,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "120",
+                    "Laktat (mmol/l)": "2.9"
+                },
+                {
+                    "Zeit (min)": 5,
+                    "Leistung (Watt)": "0",
+                    "Herzfrequenz (bpm)": "99",
+                    "Laktat (mmol/l)": "1.4"
+                }
+            ],
+            "Stufendauer": 5,
+            "Erholungsintervall": 1,
+            "InputArt": "manuell",
+            "belastung_csv_path": "data\\vp002\\daten\\test_002_belastung.csv",
+            "erholung_csv_path": "data\\vp002\\daten\\test_002_erholung.csv"
+        }
+    }
 }

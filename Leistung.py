@@ -20,7 +20,7 @@ class Leistung:
         """ Initialisiert die Klasse mit den Daten aus der CSV-Datei.
         """
         self.df = self.csv_Datei_laden(csv_path_or_file)
-        self.df["Zeit"] = np.arange(len(self.df))
+        self.df["Zeit"] = self.df["Zeit (min)"]
         self.HR_max = self.df["Herzfrequenz (bpm)"].max()
         self.df = self._add_zonen()
         self.df = self._add_stufen()
@@ -116,7 +116,8 @@ class Leistung:
                 shapes.append(dict(
                     type="rect",
                     xref="x", yref="paper",
-                    x0=start, x1=i,
+                    x0=df.iloc[start]["Zeit"],
+                    x1=df.iloc[i]["Zeit"],
                     y0=0, y1=1,
                     fillcolor=farben_dict.get(current, "rgba(200,200,200,0.2)"),
                     line=dict(width=0),
@@ -129,7 +130,8 @@ class Leistung:
         shapes.append(dict(
             type="rect",
             xref="x", yref="paper",
-            x0=start, x1=len(df),
+            x0=df.iloc[start]["Zeit"],
+            x1=df.iloc[-1]["Zeit"],
             y0=0, y1=1,
             fillcolor=farben_dict.get(current, "rgba(200,200,200,0.2)"),
             line=dict(width=0),
@@ -163,7 +165,8 @@ class Leistung:
                 shapes.append(dict(
                     type="rect",
                     xref="x", yref="y",
-                    x0=start, x1=end,
+                    x0=df.iloc[start]["Zeit"],
+                    x1=df.iloc[i]["Zeit"],
                     y0=0, y1=leistung,
                     fillcolor="rgba(30,144,255,0.3)",  # einheitliches Blau
                     line=dict(width=0),
@@ -177,7 +180,8 @@ class Leistung:
         shapes.append(dict(
             type="rect",
             xref="x", yref="y",
-            x0=start, x1=len(df),
+            x0=df.iloc[start]["Zeit"],
+            x1=df.iloc[-1]["Zeit"],
             y0=0, y1=leistung,
             fillcolor="rgba(30,144,255,0.3)",
             line=dict(width=0),
@@ -226,7 +230,7 @@ class Leistung:
 
         fig.update_layout(
             title=title,
-            xaxis_title="Zeit (s)",
+            xaxis_title="Zeit (min)",
             yaxis_title="Wert",
             shapes=shapes,
             legend=dict(title="Legende", itemsizing="constant")
