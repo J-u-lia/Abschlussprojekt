@@ -1,5 +1,5 @@
 # Abschlussprojekt
-## Versuchspersonen-Analyse & Leistungsdiagnostik-App
+## Stufentest-Analyse App
 Diese App ist eine interaktive Streamlit-Anwendung, mit der sich Versuchspersonen verwalten und leistungsdiagnostische Tests analysieren lassen. Sie eignet sich besonders für sportwissenschaftliche Studien, Trainer:innen, Sportärzt:innen oder alle, die physiologische Testdaten übersichtlich erfassen und auswerten möchten.
 
 Zu den zentralen Funktionen gehört das Anlegen neuer Versuchspersonen, bei dem persönliche Daten (Name, Geschlecht, Geburtsjahr, Sportniveau) angegeben und ein Bild hochgeladen werden können. Jede Versuchsperson erhält eine eindeutige ID – über diese kann sie später eindeutig aufgerufen werden, auch wenn es mehrere Personen mit gleichem Namen gibt. Anschließend können beliebig viele Tests hinzugefügt werden – wahlweise durch CSV-Upload oder manuelle Eingabe.

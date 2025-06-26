@@ -1,0 +1,10 @@
+{
+    "id": "vp003",
+    "firstname": "Sophie",
+    "lastname": "Zembacher",
+    "date_of_birth": "2025",
+    "gender": "Weiblich",
+    "sportniveau": "Hobbysportler",
+    "picture_path": "data\\vp003\\images\\bild.jpg",
+    "Stufentest": {}
+}
